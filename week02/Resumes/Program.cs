@@ -1,3 +1,7 @@
+// BYU Pathway Worldwide
+// Course: CSE210.002 - Programming with Classes
+// Term: 2026 Block 2
+// Author: Wilfredo Jose Marapacuto Verastegui
 using System;
 
 class Program
