@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Scripture
 {
@@ -8,6 +9,11 @@ public class Scripture
     private Random _random;
 
     public Scripture(Reference reference, string text)
+        : this(reference, text, new Dictionary<string, string>())
+    {
+    }
+
+    public Scripture(Reference reference, string text, Dictionary<string, string> hints)
     {
         _reference = reference;
         _words = new List<Word>();
@@ -17,7 +23,16 @@ public class Scripture
 
         foreach (string part in parts)
         {
-            _words.Add(new Word(part));
+            string normalizedWord = NormalizeWord(part);
+
+            if (hints.ContainsKey(normalizedWord))
+            {
+                _words.Add(new Word(part, hints[normalizedWord]));
+            }
+            else
+            {
+                _words.Add(new Word(part));
+            }
         }
     }
 
@@ -66,5 +81,10 @@ public class Scripture
         }
 
         return true;
+    }
+
+    private string NormalizeWord(string text)
+    {
+        return new string(text.Where(char.IsLetter).ToArray()).ToLower();
     }
 }
